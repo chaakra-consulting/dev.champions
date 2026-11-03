@@ -1,8 +1,8 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import Link from 'next/link';
 
-// 1. Rename your original Navbar to an internal component (e.g., NavbarContent)
 function NavbarContent() {
   const pathname = usePathname();
 
@@ -124,7 +124,7 @@ function NavbarContent() {
           {/* Navigation Links */}
           <div className="hidden group-[.open]:flex md:flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto mt-4 md:mt-0">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
-              <a href="/" className={`nav-link text-md ${pathname == '/' ? 'text-[#000068]' : 'text-gray-700'} font-bold hover:text-[#000068]`}>Beranda</a>
+              <Link href="/" className={`nav-link text-md ${pathname == '/' ? 'text-[#000068]' : 'text-gray-700'} font-bold hover:text-[#000068]`}>Beranda</Link>
 
               {/* Program Dropdown */}
               <div className="relative w-full md:w-auto">
@@ -144,9 +144,9 @@ function NavbarContent() {
                 </button>
 
                 <div className={`nav-dropdown relative md:absolute top-full left-0 mt-2 md:mt-4 w-full md:w-56 md:bg-white bg-transparent rounded-xl shadow-sm md:shadow-xl border border-gray-100 overflow-hidden z-50 flex-col transition-all ${activeDropdown === 'program' ? 'flex' : 'hidden'}`}>
-                  <a href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">Cambridge IGCSE</a>
-                  <a href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">SA Curriculum</a>
-                  <a href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">Merdeka Belajar</a>
+                  <Link href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">Cambridge IGCSE</Link>
+                  <Link href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">SA Curriculum</Link>
+                  <Link href="#" className="block px-5 py-3 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm text-gray-700 font-medium transition-colors border-b border-gray-50 last:border-none">Merdeka Belajar</Link>
                 </div>
               </div>
 
@@ -168,14 +168,14 @@ function NavbarContent() {
                 </button>
 
                 <div className={`nav-dropdown relative md:absolute top-full left-0 mt-2 md:mt-4 w-full md:w-56 md:bg-white bg-transparent rounded-xl shadow-sm md:shadow-xl border border-gray-100 overflow-hidden z-50 flex-col transition-all ${activeDropdown === 'mentors' ? 'flex' : 'hidden'}`}>
-                  <a href="/mentor" className={`block px-5 py-3 ${pathname.includes('mentor') ? 'text-[#000068] bg-[#f4f4f9]' : 'text-gray-700'}  hover:bg-[#f4f4f9] hover:text-[#000068] text-sm font-medium transition-colors border-b border-gray-50 last:border-none`}>Temukan Mentor</a>
-                  <a href="#" className="block px-5 py-3 text-gray-700 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm font-medium transition-colors border-b border-gray-50 last:border-none">Daftar sebagai Mentor</a>
+                  <Link href="/mentor" className={`block px-5 py-3 ${pathname.includes('mentor') ? 'text-[#000068] bg-[#f4f4f9]' : 'text-gray-700'}  hover:bg-[#f4f4f9] hover:text-[#000068] text-sm font-medium transition-colors border-b border-gray-50 last:border-none`}>Temukan Mentor</Link>
+                  <Link href="#" className="block px-5 py-3 text-gray-700 hover:bg-[#f4f4f9] hover:text-[#000068] text-sm font-medium transition-colors border-b border-gray-50 last:border-none">Daftar sebagai Mentor</Link>
                 </div>
               </div>
 
-              <a href="/blog" className={`nav-link text-md ${pathname.includes('blog') ? 'text-[#000068]' : 'text-gray-700'} font-bold hover:text-[#000068]`}>Blog</a>
-              <a href="/mentor/login" className="nav-link text-md text-gray-700 font-bold hover:text-[#000068]">Portal Mentor</a>
-              <a href="/student/login" className="nav-link text-md text-gray-700 font-bold hover:text-[#000068]">Portal Siswa</a>
+              <Link href="/blog" className={`nav-link text-md ${pathname.includes('blog') ? 'text-[#000068]' : 'text-gray-700'} font-bold hover:text-[#000068]`}>Blog</Link>
+              <Link href="/mentor/login" className="nav-link text-md text-gray-700 font-bold hover:text-[#000068]">Portal Mentor</Link>
+              <Link href="/student/login" className="nav-link text-md text-gray-700 font-bold hover:text-[#000068]">Portal Siswa</Link>
             </div>
           </div>
 

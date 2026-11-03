@@ -7,6 +7,19 @@ export default function Preloader() {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
+    // 1. Detect default Next.js 404 page by title
+    const isDefault404 = document.title.includes('404');
+    
+    // 2. Detect a custom 404 page by looking for a specific element ID
+    // (If you have a custom not-found.tsx, add id="not-found-page" to its main wrapper)
+    const isCustom404 = document.getElementById('not-found-page') !== null;
+
+    // Immediately hide the preloader if it's a 404 route
+    if (isDefault404 || isCustom404) {
+      setIsLoading(false);
+      return;
+    }
+
     const handleLoad = () => {
       setIsFading(true);
       setTimeout(() => {
