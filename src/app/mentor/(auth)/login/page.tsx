@@ -118,6 +118,7 @@ export default function LoginPage() {
             action={handleLogin}
             className="space-y-4 w-full max-w-[400px] mx-auto"
           >
+            <input type="hidden" name="expectedRole" value="mentor" />
             {/* Error Message Alert */}
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-[14px] text-[14px] flex items-start gap-3">

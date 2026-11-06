@@ -1,52 +1,22 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useActionState, useState } from 'react';
 import Link from 'next/link';
+import { handleLogin } from '@/app/actions/auth/login';
 
 export default function ParentLogin() {
+  const initialState = { errors: {} as { email?: string; password?: string; general?: string } };
+  const [state, formAction, isPending] = useActionState(handleLogin, initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
-  const [errors, setErrors] = useState({
-    email: false,
-    password: false,
-  });
+  const errors = state?.errors || {};
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // Modern action handler uses FormData instead of an event
-  const handleLoginAction = async (formData: FormData) => {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    let isValid = true;
-    const newErrors = { email: false, password: false };
-
-    if (!validateEmail(email)) {
-      newErrors.email = true;
-      isValid = false;
-    }
-
-    if (password.length < 8) {
-      newErrors.password = true;
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-
-    if (isValid) {
-      setIsLoading(true);
-      
-      // Simulate Auth Call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      alert('Welcome to Bloomly! Login successful.');
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div 
@@ -63,10 +33,18 @@ export default function ParentLogin() {
           <h2 className="text-2xl font-bold mb-2">Login</h2>
           <p className="text-sm">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
         </div>
+        {errors.general && (
+          <div className={` flex items-center justify-between p-4 text-sm rounded-lg border transition-all mb-6 bg-red-50 text-red-800 border-red-200`} role="alert">
+            <div className="flex items-center gap-2">
+              <span>⚠</span>
+              <span className="font-medium">{errors.general}</span>
+            </div>
+          </div>
+        )}
 
         {/* Replaced onSubmit with action={handleLoginAction} */}
-        <form action={handleLoginAction} className="flex flex-col gap-5" noValidate>
-          
+        <form action={formAction} className="flex flex-col gap-5" noValidate>
+          <input type="hidden" name="expectedRole" value="parent" />
           <div className="form-group">
             <label htmlFor="email" className="block text-xs leading-relaxed font-bold text-[#181524] mb-1.5 ml-1">
               Email
@@ -137,10 +115,10 @@ export default function ParentLogin() {
 
           <button 
             type="submit" 
-            disabled={isLoading}
+            disabled={isPending}
             className="w-full h-12 mt-2 bg-gradient-to-r from-[#000068] to-[#000068] text-white font-semibold rounded-xl shadow-btn hover:brightness-110 active:scale-95 transition-all duration-200 disabled:opacity-50"
           >
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isPending ? 'Memproses...' : 'Login'}
           </button>
           <div className="relative flex items-center py-2">
                 <div className="flex-grow border-t border-gray-200"></div>

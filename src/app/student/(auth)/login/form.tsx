@@ -2,7 +2,7 @@
 
 import React, { useActionState, useState } from 'react';
 import Link from 'next/link';
-import { handleLogin } from '@/app/actions/student/auth/login';
+import { handleLogin } from '@/app/actions/auth/login';
 
 export default function StudentLoginForm() {
   const initialState = { errors: {} as { email?: string; password?: string; general?: string } };
@@ -33,9 +33,17 @@ export default function StudentLoginForm() {
           <p className="text-sm">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
         </div>
 
+         {errors.general && (
+          <div className={` flex items-center justify-between p-4 text-sm rounded-lg border transition-all mb-6 bg-red-50 text-red-800 border-red-200`} role="alert">
+            <div className="flex items-center gap-2">
+              <span>⚠</span>
+              <span className="font-medium">{errors.general}</span>
+            </div>
+          </div>
+        )}
         {/* Replaced onSubmit with action={handleLoginAction} */}
         <form action={formAction} className="flex flex-col gap-5" noValidate>
-
+          <input type="hidden" name="expectedRole" value="student" />
           <div className="form-group">
             <label htmlFor="email" className="block text-xs leading-relaxed font-bold text-[#181524] mb-1.5 ml-1">
               Email
@@ -106,10 +114,10 @@ export default function StudentLoginForm() {
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="w-full h-12 mt-2 bg-gradient-to-r from-[#000068] to-[#000068] text-white font-semibold rounded-xl shadow-btn hover:brightness-110 active:scale-95 transition-all duration-200 disabled:opacity-50"
           >
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isPending ? 'Memproses...' : 'Login'}
           </button>
           <div className="relative flex items-center py-2">
             <div className="flex-grow border-t border-gray-200"></div>
