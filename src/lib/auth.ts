@@ -3,37 +3,47 @@ import * as schema from "@/db/schema/user";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { customSession } from "better-auth/plugins";
+import { admin, customSession } from "better-auth/plugins";
+import { ac, roles } from "./permission";
 
 export const auth = betterAuth({
-    database: drizzleAdapter(db, {
-        provider: "mysql",
-        schema: schema,
-        // usePlural: true,
+  database: drizzleAdapter(db, {
+    provider: "mysql",
+    schema: schema,
+    // usePlural: true,
+  }),
+  plugins: [
+    admin({
+      ac: ac,
+      roles: roles,
+      defaultRole: "student",
+      adminRoles: ["admin"],
     }),
-    plugins: [nextCookies(), customSession(async ({ user, session }) => {
-        const { token, ...safeSession } = session;
+    nextCookies(),
+    customSession(async ({ user, session }) => {
+      const { token, ...safeSession } = session;
 
-        return {
-            user,
-            session: safeSession
-        };
-    }),],
-    emailAndPassword: {
-        enabled: true,
+      return {
+        user,
+        session: safeSession,
+      };
+    }),
+  ],
+  emailAndPassword: {
+    enabled: true,
+  },
+  advanced: {
+    database: {
+      validateSchema: false,
     },
-    advanced: {
-        database: {
-            validateSchema: false,
-        },
+  },
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "student",
+      },
     },
-    user: {
-        additionalFields: {
-            role: {
-                type: "string", 
-                required: false,
-                defaultValue: "student",
-            },
-        },
-    },
+  },
 });

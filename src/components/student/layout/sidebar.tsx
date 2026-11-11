@@ -70,6 +70,8 @@ import { authClient } from "@/lib/auth-client"
 import { redirect, usePathname } from "next/navigation"
 import parentSidebarMenuData from "@/constants/parent-sidebar-menu"
 import studentSidebarMenuData from "@/constants/student-sidebar-menu"
+import adminSidebarMenuData from "@/constants/admin-sidebar-menu"
+import Link from "next/link"
 
 
 
@@ -79,6 +81,7 @@ function NavMain({
   items: {
     title: string
     url: string
+    itemGroup?: string
     icon?: React.ElementType
     items?: {
       title: string
@@ -91,13 +94,13 @@ function NavMain({
   // Helper to accurately determine active state, including nested routes
   const isUrlActive = (url: string) => {
     if (!pathname || url === "#") return false
-    if (url === "/") return pathname === "/" // Exact match for home to prevent it from always being active
+    if (url === "/") return pathname === "/"
     return pathname.startsWith(url) 
   }
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const hasSubItems = item.items && item.items.length > 0
@@ -110,10 +113,10 @@ function NavMain({
               <SidebarMenuItem key={item.title}>
                 {/* Apply isActive to top-level link */}
                 <SidebarMenuButton asChild tooltip={item.title} isActive={isItemActive}>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )
@@ -144,9 +147,9 @@ function NavMain({
                         <SidebarMenuSubItem key={subItem.title}>
                           {/* Apply isActive to the sub-item link */}
                           <SidebarMenuSubButton asChild isActive={isSubItemActive}>
-                            <a href={subItem.url}>
+                            <Link href={subItem.url}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       )
@@ -257,6 +260,8 @@ function navMainItemsForRole(role: string) {
     //   return data.navMainParent;
     case "student":
       return studentSidebarMenuData.navMain;
+    case "admin":
+      return adminSidebarMenuData.navMain;
     // case "mentor":
     //   return data.navMainMentor;
   }

@@ -1,52 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useState } from "react";
 import Link from "next/link";
+import { handleLogin } from "@/app/actions/auth/login";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const initialState = { errors: {} as { email?: string; password?: string; general?: string } };
+  const [state, formAction, isPending] = useActionState(handleLogin, initialState);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const errors = state?.errors || {};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  // Next.js App Router allows async actions directly on the form
-  const handleLogin = async (formData: FormData) => {
-    setIsLoading(true);
-    setError(null); // Clear previous errors
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    console.log("Login attempt with:", { email, password });
-
-    try {
-      // Simulate a network request (e.g., authentication API call)
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Mock validation: Force an error for demonstration purposes
-          // In a real app, this would be based on your backend response
-          if (email === "admin@example.com") {
-            resolve("Success");
-          } else {
-            reject(new Error("Invalid email or password. Please try again."));
-          }
-        }, 2000);
-      });
-
-      // Handle successful login here (e.g., redirecting)
-      console.log("Login successful");
-    } catch (err: any) {
-      // Set the error message to display in the UI
-      setError(
-        err.message || "An unexpected error occurred. Please try again.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <main className="bg-[#F0F2F5] min-h-screen flex items-center justify-center p-4 sm:p-8 font-sans">
@@ -115,25 +86,17 @@ export default function LoginPage() {
 
           {/* Form */}
           <form
-            action={handleLogin}
+            action={formAction}
             className="space-y-4 w-full max-w-[400px] mx-auto"
           >
+
             <input type="hidden" name="expectedRole" value="mentor" />
-            {/* Error Message Alert */}
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-[14px] text-[14px] flex items-start gap-3">
-                <svg
-                  className="w-5 h-5 flex-shrink-0 mt-0.5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>{error}</span>
+            {errors.general && (
+              <div className={` flex items-center justify-between p-4 text-sm rounded-lg border transition-all mb-6 bg-red-50 text-red-800 border-red-200`} role="alert">
+                <div className="flex items-center gap-2">
+                  <span>⚠</span>
+                  <span className="font-medium">{errors.general}</span>
+                </div>
               </div>
             )}
 
@@ -215,10 +178,10 @@ export default function LoginPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isPending}
               className="cursor-pointer w-full flex items-center justify-center gap-2 bg-[#000068] hover:bg-[#000068]Hover text-white font-semibold py-3.5 rounded-[14px] transition-all text-[15px] shadow-[0_4px_14px_0_rgba(0,0,104,0.39)] disabled:opacity-75 disabled:cursor-not-allowed"
             >
-              {isLoading && (
+              {isPending && (
                 <svg
                   className="animate-spin h-5 w-5 text-white"
                   xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +203,7 @@ export default function LoginPage() {
                   ></path>
                 </svg>
               )}
-              {isLoading ? "Logging in..." : "Login"}
+              {isPending ? "Memproses..." : "Login"}
             </button>
           </form>
 

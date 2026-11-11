@@ -6,7 +6,7 @@ export const user = mysqlTable("users", {
     email: varchar("email", { length: 255 }).notNull().unique(),
     emailVerified: boolean("email_verified").notNull(),
     image: text("image"),
-    role: mysqlEnum("role", ["student", "parent", "admin"]).default("student").notNull(), // Custom field
+    role: mysqlEnum("role", ["student", "parent", "admin","mentor"]).default("student").notNull(), // Custom field
     createdAt: datetime("created_at", { mode: "date", fsp: 3 })
         .$defaultFn(() => new Date())
         .notNull(),
@@ -15,6 +15,11 @@ export const user = mysqlTable("users", {
         .$defaultFn(() => new Date())
         .$onUpdateFn(() => new Date())
         .notNull(),
+
+  banned: boolean("banned").default(false),
+  banReason: text("ban_reason"),
+  banExpires: timestamp("ban_expires"),
+
 });
 
 export const account = mysqlTable("user_accounts", {
@@ -57,4 +62,5 @@ export const session = mysqlTable("sessions", {
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
     userId: varchar("user_id", { length: 36 }).notNull().references(() => user.id, { onDelete: "cascade" }),
+    impersonatedBy: text("impersonated_by"),
 });
