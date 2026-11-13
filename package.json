@@ -22,6 +22,8 @@
     "dotenv": "^18.0.9",
     "drizzle-orm": "^0.45.4",
     "filepond": "^4.32.12",
+    "filepond-plugin-file-validate-size": "^2.2.8",
+    "filepond-plugin-file-validate-type": "^1.2.9",
     "lucide-react": "^1.68.0",
     "mysql2": "^3.24.6",
     "next": "16.4.3",

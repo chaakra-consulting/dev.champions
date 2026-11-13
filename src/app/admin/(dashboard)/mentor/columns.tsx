@@ -18,11 +18,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 // Type-only import: nothing from the DB layer ends up in the client bundle
 import type { mentorPersonal } from "@/db/schema/mentor-personal"
+import Link from "next/link"
 
 // Keep in sync with the .select({...}) in page.tsx
 export type Mentor = Pick<
     typeof mentorPersonal.$inferSelect,
-    "nik" | "nip" | "name" | "sex" | "phone" | "dob" | "pob" | "address" | "marriageStatus"
+    "id" | "nik" | "nip" | "name" | "sex" | "phone" | "dob" | "pob" | "address" | "marriageStatus"
 >
 
 // "Budi Santoso" -> "BS", "Budi" -> "B"
@@ -47,7 +48,7 @@ export const columns: ColumnDef<Mentor>[] = [
     },
     {
         id: "profile",
-        header: "Profil",
+        header: "Foto",
         enableSorting: false,
         // Shows initials. If the table has a photo column, add it to the Mentor type and the
         // .select({...}) in page.tsx, then render it here:
@@ -98,7 +99,7 @@ export const columns: ColumnDef<Mentor>[] = [
     {
         accessorKey: "sex",
         header: "Jenis Kelamin",
-        cell: ({ row }) => <span className="capitalize">{row.original.sex ?? "-"}</span>,
+        cell: ({ row }) => <span className="capitalize">{row.original.sex =="male" ? "Laki-laki" : "Perempuan"}</span>,
     },
     {
         accessorKey: "phone",
@@ -114,20 +115,20 @@ export const columns: ColumnDef<Mentor>[] = [
                 <div className="text-xs text-muted-foreground">{row.original.dob?.toLocaleString("id-ID", { dateStyle: "medium" })}</div>
             </>
         ),
+        
     },
     {
         accessorKey: "marriageStatus",
         header: "Status Pernikahan",
         cell: ({ row }) => (
-            <span className="capitalize">{row.original.marriageStatus ?? "-"}</span>
+            <span className="capitalize">{row.original.marriageStatus == "married" ? "Menikah" : "Belum Menikah"}</span>
         ),
     },
     {
         id: "actions",
         header: () => <div className="text-right">Aksi</div>,
         enableSorting: false,
-        // row.original.nik is available here when you wire up Edit / View Details / Delete
-        cell: () => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -137,10 +138,11 @@ export const columns: ColumnDef<Mentor>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href={`mentor/detail/${row.original.id}`}>Detail</Link>
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+                        <DropdownMenuItem variant="destructive">Hapus</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

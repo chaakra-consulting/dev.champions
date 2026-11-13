@@ -20,7 +20,7 @@ const adminSidebarMenuData = {
     },
     {
       title: "Siswa",
-      url: "/admin/dashboard/student",
+      url: "/admin/student",
       icon: GraduationCap,
     },
     {

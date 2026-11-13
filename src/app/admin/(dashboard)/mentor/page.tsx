@@ -14,7 +14,7 @@ import { Suspense } from "react";
 import { db } from "@/db";
 import { mentorPersonal } from "@/db/schema/mentor-personal"
 import { columns } from "./columns"
-import { DataTable } from "./data-table"
+import { DataTable } from "@/components/ui/data-table"
 
 export default function AdminMentorPage() {
     return (
@@ -91,6 +91,7 @@ async function MentorTable() {
     // Select only what the table shows: every field returned here is serialized into the page payload sent to the browser
     const rows = await db
         .select({
+            id: mentorPersonal.id,
             nik: mentorPersonal.nik,
             nip: mentorPersonal.nip,
             name: mentorPersonal.name,

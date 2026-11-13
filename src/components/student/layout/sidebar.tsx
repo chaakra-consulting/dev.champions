@@ -75,6 +75,23 @@ import Link from "next/link"
 
 
 
+
+
+function NavMainFallback() {
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Menu</SidebarGroupLabel>
+      <SidebarMenu>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <SidebarMenuItem key={i}>
+            <div className="h-8 animate-pulse rounded-md bg-sidebar-accent/50" />
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  )
+}
+
 function NavMain({
   items,
 }: {
@@ -286,7 +303,9 @@ export function AppSidebar({
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain  items={navMainItemsForRole(user.role) as any || []} />
+        <React.Suspense fallback={<NavMainFallback />}>
+          <NavMain items={(navMainItemsForRole(user.role) as any) || []} />
+        </React.Suspense>
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>

@@ -1,6 +1,6 @@
 import { int, mysqlTable, varchar, timestamp, text, datetime } from "drizzle-orm/mysql-core";
 // import { studentAccount } from "./student-user";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { parentPersonal } from "./parent-personal";
 import { user } from "./user";
 
@@ -30,14 +30,14 @@ export const studentPersonal = mysqlTable('student_personals', {
 
 })
 
-export const studentPersonalRelations = relations(studentPersonal, ({ one }) => ({
-    user: one(user, {
-        fields: [studentPersonal.accountId],
-        references: [user.id],
-    }),
-}));
+// export const studentPersonalRelations = relations(studentPersonal, ({ one }) => ({
+//     user: one(user, {
+//         fields: [studentPersonal.accountId],
+//         references: [user.id],
+//     }),
+// }));
 
-export const studentParentRelations = relations(studentPersonal, ({ one }) => ({
+export const parentRelations = relations(studentPersonal, ({ one }) => ({
     parent: one(parentPersonal, {
         fields: [studentPersonal.parentId],
         references: [parentPersonal.id],
