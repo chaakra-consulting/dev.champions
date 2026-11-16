@@ -139,7 +139,7 @@ export const columns: ColumnDef<Mentor>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
-                            <Link href={`mentor/detail/${row.original.id}`}>Detail</Link>
+                            <Link href={`student/detail/${row.original.id}`}>Detail</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem variant="destructive">Hapus</DropdownMenuItem>

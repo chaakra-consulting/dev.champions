@@ -110,8 +110,8 @@ async function StudentTable() {
             columns={columns}
             data={rows}
             initialSorting={[{ id: "name", desc: false }]}
-            searchPlaceholder="Cari nama, NIK, NIP, atau telepon..."
-            emptyMessage="Belum ada data mentor."
+            searchPlaceholder="Cari nama, Sekolah, atau telepon..."
+            emptyMessage="Belum ada data siswa."
         />
     );
 }

@@ -1,4 +1,4 @@
-import { BanknoteArrowDown, BookOpen, Bot, Box, BrainCircuit, Frame, GraduationCap, LayoutDashboardIcon, PieChart, Settings2, SquareTerminal } from "lucide-react";
+import { BanknoteArrowDown, BookOpen, BookUser, Bot, Box, BrainCircuit, Frame, GraduationCap, LayoutDashboardIcon, LibraryBig, PieChart, Settings2, SquareTerminal } from "lucide-react";
 
 const adminSidebarMenuData = {
 
@@ -22,6 +22,16 @@ const adminSidebarMenuData = {
       title: "Siswa",
       url: "/admin/student",
       icon: GraduationCap,
+    },
+    {
+      title: "Kurikulum",
+      url: "/admin/curriculum",
+      icon: LibraryBig,
+    },
+    {
+      title: "Form Konsultasi",
+      url: "/admin/consul-form",
+      icon: BookUser,
     },
     {
       title: "Pembayaran",
@@ -112,7 +122,7 @@ const adminSidebarMenuData = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Master Data",
       url: "#",
       icon: Frame,
     },

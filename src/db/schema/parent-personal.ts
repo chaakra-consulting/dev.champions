@@ -7,7 +7,7 @@ export const parentPersonal = mysqlTable('parents', {
     id: int('id').primaryKey().autoincrement().notNull(),
     // parentAccountId: int('parent_account_id').references(() => parentAccount.id),
     accountId: varchar("account_id",{ length: 36 }).references(() => user.id).notNull().unique(),
-    relation: varchar({ enum: ['mother', 'father', 'others'] as const, length: 8 }).default('father').notNull(),
+    relation: varchar({ enum: ['mother', 'father', 'other'] as const, length: 8 }).default('father').notNull(),
     name: varchar({ length: 100 }).notNull(),
     phone: varchar({ length: 18 }).notNull(),
     address: text('address').notNull(),

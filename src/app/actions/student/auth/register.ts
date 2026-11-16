@@ -24,7 +24,7 @@ export async function registerStudentAction(
         const parentEmail = formData.get("parentEmail") as string;
         const parentName = formData.get("parentName") as string;
         // Cast strictly to match your Drizzle enum type
-        const parentRelation = formData.get("parentRelation") as "mother" | "father" | "others";
+        const parentRelation = formData.get("parentRelation") as "mother" | "father" | "other";
         const parentPhone = formData.get("parentPhone") as string;
         const parentAddress = formData.get("parentAddress") as string;
         const studentName = formData.get("studentName") as string;
